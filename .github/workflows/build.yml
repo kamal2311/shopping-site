@@ -14,11 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Node $
+      - name: Node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
-          node-version: $
-      - name: npm install and npm run build
+          node-version: ${{ matrix.node }}
+      - name: npm install and npm run build:ci
         run: |
           npm install
           npm run build:ci 
