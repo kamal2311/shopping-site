@@ -7,10 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - uses: actions/checkout@v1      
         with:
@@ -26,12 +22,15 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
-      - name: Node ${{ matrix.node-version }}
+      - name: Node 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
           
       - name: npm install and npm run build:ci
         run: |
           npm install
-          npm run build:ci 
+          npm run build:ci
+      
+      - name: Deploy to Surge
+        run: npx surge --project=./dist/shopping-site/ --domain=${{ secrets.SURGE_DOMAIN }} --token=${{ secrets.SURGE_TOKEN }}
