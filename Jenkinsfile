@@ -1,15 +1,30 @@
 pipeline {
     agent { docker { image 'node:12.0' } }
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
                 sh 'npm --version'
                 sh 'echo "Hello World"'
                 sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
+                    npm install
+                    npm run build:ci
                 '''
             }
         }
+        stage('Test') {
+            steps {                                
+                sh 'npm run test:ci'                                    
+            }
+        }
+        stage('Deploy') {
+            environment {
+                $SURGE_DOMAIN = credentials('SURGE_DOMAIN')
+                $SURGE_TOKEN = credentials('SURGE_TOKEN')
+            }
+            steps {                                
+                sh 'npx surge --project=./dist/shopping-site/ --domain=$SURGE_DOMAIN --token=$SURGE_TOKEN'
+            }
+        }
+
     }
 }
