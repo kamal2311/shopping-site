@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Test') {
             steps {                                
-                sh 'npm install && npm run test:ci'                                    
+                sh 'npm run test:ci'                                    
             }
         }
         stage('Deploy') {
