@@ -25,12 +25,15 @@ jobs:
       - name: Node 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 12.x     
           
-      - name: npm install and npm run build:ci
+      - name: Build
         run: |
           npm install
           npm run build:ci
+
+      - name: Test
+        run: npm run test:ci  
       
       - name: Deploy to Surge
         run: npx surge --project=./dist/shopping-site/ --domain=${{ secrets.SURGE_DOMAIN }} --token=${{ secrets.SURGE_TOKEN }}
