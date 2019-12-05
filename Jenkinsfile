@@ -18,8 +18,8 @@ pipeline {
         }
         stage('Deploy') {
             environment {
-                $SURGE_DOMAIN = credentials('SURGE_DOMAIN')
-                $SURGE_TOKEN = credentials('SURGE_TOKEN')
+                SURGE_DOMAIN = credentials('SURGE_DOMAIN')
+                SURGE_TOKEN = credentials('SURGE_TOKEN')
             }
             steps {                                
                 sh 'npx surge --project=./dist/shopping-site/ --domain=$SURGE_DOMAIN --token=$SURGE_TOKEN'
